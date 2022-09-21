@@ -1,0 +1,27 @@
+<script type="module">
+    console.log(typeof exports)
+    import PromiseSql from '../dist/index.esnext.js'
+
+    (async function () {
+        const promiseSql = new PromiseSql({
+            type: 'websql',
+            websql: {
+                name: 'test-database',
+                version: '1.0',
+                displayName: '',
+                estimatedSize: 1024 * 1024
+            }
+        })
+
+        await promiseSql.init()
+        promiseSql.query('select * from pro_model where id > ?', [100]).then((results) => {
+            console.log(results)
+        })
+
+        promiseSql.transaction(['select * from pro_model', 'select * from pro_type'], [[], []]).then((results) => {
+            console.log(results)
+        })
+    })()
+
+
+</script>
